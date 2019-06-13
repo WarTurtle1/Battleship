@@ -1,0 +1,169 @@
+#include <iostream>
+#include <ctime>
+#include <random>
+#include <string> 
+
+//Set up Variables 
+//Set up Menu
+//Set Up AI Grid
+//Set up Player Grid
+//Set up Playerships
+
+using namespace std;
+
+const int row = 10; // Sets up Grid*
+const int collum = 10; // Sets up grid
+const char water = 247; // Water on grid
+const char hit = 'x'; //Displyed when a ship is hit
+const char Pship = 's'; //Displayed where a player places a ship
+
+
+
+int maxship = 5; //Sets Max # of ships on AI board
+int matrix[row][collum]; //*
+const int shipnum = 5;
+
+
+
+void clear() 
+{
+	for (int i = 0; i < row; i++)
+	{
+		for (int j = 0; j < collum; j++)
+		{
+			matrix[i][j] = 0;
+
+		}
+	}
+}
+
+
+
+
+void show() //Displays the grid
+{
+	for (int i = 0; i < row; i++)
+	{
+		for (int j = 0; j < collum; j++)
+		{
+			cout << matrix[i][j] << " ";
+		}
+		cout << endl;
+	}
+}
+
+int numship() //Tells the player how many AI ships are left
+{
+	int c = 0;
+	for (int i = 0; i < row; i++)
+	{
+		for (int j = 0; j < collum; j++)
+		{
+			if (matrix[i][j] == 3) //
+				c++;
+		}
+	}
+
+	return c;
+
+}
+
+void setshipsuser() //Sets up the ships randomly for the AI player (Sets AI ships to 3 on the array/ AI Grid)
+{
+	int s = 0;
+	while (s < maxship)
+	{
+		int x = rand() % row;
+		int y = rand() % collum;
+		if (matrix[x][y] != 3)
+		{
+			s++;
+			matrix[x][y] = 3;
+
+		}
+	}
+}
+
+void setships() //Sets up the ships randomly for the AI player (Sets AI ships to 3 on the array/ AI Grid)
+{
+	int s = 0;
+	while (s < maxship)
+	{
+		int x = rand() % row;
+		int y = rand() % collum;
+		if (matrix[x][y] != 3)
+		{
+			s++;
+			matrix[x][y] = 3;
+
+		}
+	}
+}
+
+bool attack(int x, int y) //Allows the player to fire on X,Y Cords of their choice 
+{
+	if (matrix[x][y] == 3)
+	{
+		matrix[x][y] = 2;
+		return true;
+
+	}
+	return false;
+}
+
+
+
+int main()
+{
+
+	bool Quit = 0; //If Quit = 1 it will exit the program 
+	//Player Selection Menu
+
+Begin:
+	cout << "1: Play Game \n"
+		"2: Quit Game \n"
+		"3: Game Credits \n"
+		"4: How To Play \n";
+
+	int Select; //Variable to allow player to select a option 
+	cout << "Please Enter a Number from the Options: ";
+	cin >> Select;
+
+
+
+	if (Select == 1)
+	{
+		cout << "\n"
+			"\n"
+			"\n";
+
+		srand(time(NULL));
+		clear();
+		show();
+		cout << "------------------------" << endl;
+		setships(); // *
+		show(); // Shows AI Board (Testing Feature only)*
+		cout << "------------------------" << endl;
+		// setshipsuser();
+		// show();
+		int pos1, pos2;
+		while (1)
+		{
+			cout << "Please input Location (X then Y):"; cin >> pos1 >> pos2; // Asking player where to "fire"
+			if (attack(pos1, pos2)) //If the hit is succesful 
+				cout << "Hit succesful" << endl;
+			else
+				cout << "Hit Failed" << endl; //If there is no hit
+			cout << "Remaining Ships: " << numship() << endl;
+
+		}
+		if (numship == 0)
+			cout << "Remaining Ships: " << numship() << endl;
+		cout << "You are out of ships!";
+
+
+
+		system("pause");
+		return 0;
+	}
+}
